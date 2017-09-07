@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+	<script type="text/javascript">
+
+    function toRoman(num) 
+    {  
+    var result = '';
+    var decimal = [1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1, 0];
+    var roman = ["M", "CM","D","CD","C", "XC", "L", "XL", "X","IX","V","IV","I","0"];
+    for (var i = 0;i<=decimal.length;i++) 
+    {
+      while (num%decimal[i] < num) 
+      {     
+        result += roman[i];
+        num -= decimal[i];
+      }
+    }
+      return result;
+    }
+
+  function fromRoman(str) {  
+    var result = 0;
+    var decimal = [1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1, 0];
+    var roman = ["M", "CM","D","CD","C", "XC", "L", "XL", "X","IX","V","IV","I","0"];
+    for (var i = 0;i<=decimal.length;i++) {
+      while (str.indexOf(roman[i]) === 0){
+        result += decimal[i];
+        str = str.replace(roman[i],'');
+      }
+    }
+    return result;
+  }
+
+    function calculator(inp1, inp2, inp3)
+    {
+      var val1 = inp1;
+      var opr = inp2;
+      var val2 = inp3;
+
+      var val1up = val1.toUpperCase();
+      var val2up = val2.toUpperCase();
+
+      var number1 = fromRoman(val1up);
+      var number2 = fromRoman(val2up);
+
+      var out, temp;
+      var final;
+
+      if(val2>val1 && opr=="-")
+      {
+        var temp1;
+        temp1=number2;
+        number2=number1;
+        number1=temp1;
+      }
+
+      switch(opr){
+    case "+":
+        temp = number1 + number2;
+        break;
+    case "-":
+        temp = number1 - number2;
+        break;
+    case "*":
+        temp = number1 * number2;
+        break;
+    case "/":
+        temp = number1 / number2;
+        break;
+    }
+
+      out = toRoman(temp);
+
+      if(val2>val1 && opr=="-")
+      {
+        out = "-" + out;
+      }
+
+
+      if(out == 0)
+        final = "0";
+      else
+        final = out;
+      return final;
+    }
+
+    function getvar()
+    {
+      var val1 = document.getElementById("firstnumeral").value;
+      var opr = document.getElementById("operator").value;
+      var val2 = document.getElementById("secondnumeral").value;
+
+      if (/[MDCLXVImdclxvi]/g.test(val1) == false || val1 == "" || /[\+\-\*\/\.]/g.test(opr) == false || opr == "" || /[MDCLXVImdclxvi]/g.test(val2) == false || val2 == ""){
+        alert("Please enter a valid input!");
+        var out = "";
+      }
+      else
+        var out = calculator(val1, opr, val2);
+      document.getElementById("result").innerHTML = out;
+      return;
+    }
+
+    function testcalc()
+    {
+      var data1 = "xi";
+      var data2 = "+";
+      var data3 = "ix";
+      var out1 = calculator(data1, data2, data3);
+
+      var data4 = "xi";
+      var data5 = "-";
+      var data6 = "ix";
+      var out2 = calculator(data4, data5, data6);
+
+      var data7 = "ix";
+      var data8 = "-";
+      var data9 = "xi";
+      var out3 = calculator(data7, data8, data9);
+
+      var data10 = "xi";
+      var data11 = "*";
+      var data12 = "ix";
+      var out4 = calculator(data10, data11, data12);
+
+      var data13 = "xi";
+      var data14 = "/";
+      var data15 = "ix";
+      var out5 = calculator(data13, data14, data15);
+
+      document.getElementById("result").innerHTML = "<br>TEST 1:<br>" + "INPUT: " + data1 + " " + data2 + " " + data3 + "<br>" + "OUTPUT: " + out1 + 
+      "<br><br>" +
+      "TEST 2:<br>" + "INPUT: " + data4 + " " + data5 + " " + data6 + "<br>" + "OUTPUT: " + out2 + 
+      "<br><br>" +
+      "TEST 3:<br>" + "INPUT: " + data7 + " " + data8 + " " + data9 + "<br>" + "OUTPUT: " + out3 + 
+      "<br><br>" +
+      "TEST 4:<br>" + "INPUT: " + data10 + " " + data11 + " " + data12 + "<br>" + "OUTPUT: " + out4 + 
+      "<br><br>" +
+      "TEST 5:<br>" + "INPUT: " + data13 + " " + data14 + " " + data15 + "<br>" + "OUTPUT: " + out5; 
+      return;
+    }
+
+	</script>
+
+
+  <style>
+    .btn {
+    border: none;
+    color: white;
+    padding: 14px 28px;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 80px;
+    }
+
+  .success {background-color: #4CAF50;}
+  .success:hover {background-color: #46a049;}
+
+  .warning {background-color: #ff9800;}
+  .warning:hover {background: #e68a00;}
+
+  .textin {
+    display: block;
+    margin: 0 auto;
+    border: none;
+    border-bottom: 2px solid grey;
+    width:400px;
+    height:30px;
+}
+
+.box{
+  width: 40%;
+  margin: 0 auto;
+}
+  </style>
+</head>
+
+<body>
+<h1 align="center">ROMAN NUMERAL CALCULATOR</h1>
+<div id="box" class="box">
+  <label>First Numeral : </label> 
+  <input class = "textin" id="firstnumeral" type="text" name="firstnumeral" placeholder="Enter the first number">
+  <br>
+  <br>
+  <label>Operator : </label> 
+  <input class = "textin" id="operator" type="text" name="operator" placeholder="+ , - , * , /">
+  <br>
+  <br>
+  <label>Second Numeral : </label> 
+  <input class = "textin" id="secondnumeral" type="text" name="secondnumeral" placeholder="Enter the second number">
+  <br>
+  <br>
+  <button class="btn success" id="submit" onclick="getvar()">Calculate</button> <button class="btn warning" id="test" onclick="testcalc()">Test</button>
+
+<br>
+<br>
+OUTPUT: <div id="result"></div>
+</div>
+
+</body>
+</html>
